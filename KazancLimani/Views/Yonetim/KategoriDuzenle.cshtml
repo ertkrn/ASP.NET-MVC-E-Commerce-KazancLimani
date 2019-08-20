@@ -1,0 +1,39 @@
+﻿@model proje1.Entities.Kategori
+
+@{
+    ViewBag.Title = "KazancLimani - Kategori Düzenle";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.kategoriAdi.ToUpper() KATEGORİSİNİ DÜZENLE</h2>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Kategori</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.kategoriId)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kategoriAdi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kategoriAdi, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.kategoriAdi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Güncelle" class="btn btn-warning" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Geri Dön", "KategoriYonetim")
+</div>

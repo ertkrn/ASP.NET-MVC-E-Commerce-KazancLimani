@@ -1,0 +1,54 @@
+﻿@using proje1.Entities.ValueObjects
+@using proje1.BusinessLayer
+@using proje1.Entities
+@model LoginViewModel
+@{
+    ViewBag.Title = "KazancLimani - Giriş Yap";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Giriş Yap
+    </h3>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm("Giris", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary(false)
+        <fieldset>
+            <div class="form-group">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                    @*<input type="text" class="form-control" placeholder="Email">*@
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Kullanıcı Adı" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                    @*<input type="password" class="form-control" placeholder="Password">*@
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Şifre", type = "password" })
+                </div>
+            </div>
+            <div class="checkbox">
+                <label>
+                    @*<input name="remember" type="checkbox" value="Remember Me">*@
+                    @Html.CheckBoxFor(model=>model.BeniHatirla, new { name="remember"})
+                    @Html.DisplayNameFor(model=>model.BeniHatirla)
+                </label>
+            </div>
+            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Giriş Yap">
+        </fieldset>
+    }
+    <p class="m-b-0 m-t">Henüz kayıt olmadınız mı? <a href='@Url.Action("Kayit","Home")'>Hemen kayıt ol</a>.</p>
+    <div class="credits">
+        <!--
+          All the links in the footer should remain intact.
+          You can delete the links only if you purchased the pro version.
+          Licensing information: https://bootstrapmade.com/license/
+          Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flexor
+        -->
+        <a href="https://ertkrn.com/">Bizimle çalışmak ister misiniz?</a>
+    </div>
+</div>

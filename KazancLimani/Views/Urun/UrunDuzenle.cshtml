@@ -1,0 +1,167 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@using proje1.Entities.ValueObjects
+@model UrunViewModel
+@{
+    RenkYonetici ry = new RenkYonetici();
+    KategoriYonetici ky = new KategoriYonetici();
+    SehirYonetici sy = new SehirYonetici();
+    List<string> list1 = new List<string>();
+    List<string> list2 = new List<string>();
+    List<Renk> list3 = new List<Renk>();
+    List<string> list4 = new List<string>();
+    List<Kategori> list5 = new List<Kategori>();
+    List<string> list6 = new List<string>();
+    List<Sehir> list7 = new List<Sehir>();
+    List<string> list8 = new List<string>();
+    list3 = ry.List();
+    list5 = ky.List();
+    list7 = sy.List();
+    foreach(Renk rnk in list3)
+    {
+        list4.Add(rnk.renkAdi);
+    }
+    foreach (Kategori kat in list5)
+    {
+        list6.Add(kat.kategoriAdi);
+    }
+    foreach (Sehir shr in list7)
+    {
+        list8.Add(shr.ilAdi);
+    }
+    list2.Add("UYGUN");
+    list2.Add("UYGUN DEĞİL");
+    list1.Add("SIFIR");
+    list1.Add("İKİNCİ EL");
+    ViewBag.Title = "KazancLimani - Ürün Düzenle";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>İLAN NO'SU <mark>@Model.IlanId</mark> OLAN ÜRÜNÜNÜ DÜZENLE</h2>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm("UrunDuzenle", "Urun", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Urun</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model.Fotograf == null)
+            {
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <img src="~/Content/Image/fotoyok.jpg" class="col-md-offset-2" id="gorsel" style="width:270px;" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="file" value="Fotoğraf Yükle" name="file" max-size=10000 id="yuklenengorsel" onChange="readURL(this);" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <img src="~/Content/Image/Urun/@Model.Fotograf" class="col-md-offset-2" id="gorsel" style="width:270px;" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="file" value="Fotoğraf Yükle" name="file" multiple="multiple" max-size=10000 id="yuklenengorsel" onChange="readURL(this);" />
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                @Html.LabelFor(model => model.IlanId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.IlanId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    @Html.ValidationMessageFor(model => model.IlanId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UrunBaslik, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.UrunBaslik, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UrunBaslik, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UrunFiyat, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.UrunFiyat, new { @class = "form-control", type="number", min = "0", max = "1000000", step = "1", required = "required" })
+                    @Html.ValidationMessageFor(model => model.UrunFiyat, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UrunKonum, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.TextAreaFor(model => model.UrunKonum, new { @class = "form-control", @cols = 27, @rows = 5 })
+                    @Html.ValidationMessageFor(model => model.UrunKonum, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Takas, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    <div class="checkbox">
+                        @Html.DropDownListFor(model => model.takasdegeri, new SelectList(list2), new { required = "required" })
+                        @Html.ValidationMessageFor(model => model.takasdegeri, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.durumu, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    <div class="checkbox">
+                        @Html.DropDownListFor(model => model.durumdegeri, new SelectList(list1), new { required = "required" })
+                        @Html.ValidationMessageFor(model => model.durumu, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.KategoriAdi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.KategoriAdi, new SelectList(list6), new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.KategoriAdi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UrunRenkAdi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.UrunRenkAdi, new SelectList(list4), new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.UrunRenkAdi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SehirAlani, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.SehirAlani, new SelectList(list8), new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.SehirAlani, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.UrunAciklama, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(model => model.UrunAciklama, new { @class = "form-control", @cols = 27, @rows = 5 })
+                    @Html.ValidationMessageFor(model => model.UrunAciklama, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Güncelle" class="btn btn-warning" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Geri Dön", "Sattiklarim", "Profil")
+</div>
+<script src="~/Scripts/GorselYukle.js"></script>

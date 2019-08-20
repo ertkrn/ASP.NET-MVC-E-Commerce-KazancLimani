@@ -1,0 +1,135 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@model proje1.Entities.Urun
+
+@{
+    UrunYonetici uy = new UrunYonetici();
+    KullaniciYönetici ky = new KullaniciYönetici();
+    RenkYonetici ry = new RenkYonetici();
+    KategoriYonetici kay = new KategoriYonetici();
+    List<Sehir> list = ky.SehirAl();
+    List<Object> list1 = new List<Object>();
+    List<Kullanici> list2 = ky.List();
+    List<Object> list3 = new List<Object>();
+    List<long> list5 = new List<long>();
+    List<Renk> list6 = ry.List();
+    List<Object> list7 = new List<Object>();
+    List<Kategori> list8 = kay.List();
+    List<Object> list9 = new List<Object>();
+    for (long i = 1; i <= 81; i++) { list5.Add(i); }
+    foreach (Sehir Shr in list) { list1.Add(Shr.ilPlaka); }
+    foreach(Renk rnk in list6) { list7.Add(rnk.renkId); }
+    foreach(Kategori kat in list8) { list9.Add(kat.kategoriId); }
+    foreach (Kullanici klnc in list2) { list3.Add(klnc.kullaniciId); }
+
+    ViewBag.Title = "KazancLimani - Ürün Oluştur";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>YENİ ÜRÜN OLUŞTUR</h2>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+    
+        <div class="form-horizontal">
+            <h4>Ürün</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.urunBaslik, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.urunBaslik, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.urunBaslik, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.urunFiyati, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.urunFiyati,new { @class = "form-control", type = "number", min = "0", max = "1000000", step = "1", required = "required" } )
+                    @Html.ValidationMessageFor(model => model.urunFiyati, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.urunAciklama, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.urunAciklama, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.urunAciklama, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.urunKonum, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.urunKonum, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.urunKonum, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.halasatilikmi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.halasatilikmi)
+                        @Html.ValidationMessageFor(model => model.halasatilikmi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.takasyapilirmi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.takasyapilirmi)
+                        @Html.ValidationMessageFor(model => model.takasyapilirmi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kategoriId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.kategoriId, new SelectList(list9))
+                    @Html.ValidationMessageFor(model => model.kategoriId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ilPlaka, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.ilPlaka,new SelectList(list1))
+                    @Html.ValidationMessageFor(model => model.ilPlaka, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.kullaniciId, new SelectList(list3))
+                    @Html.ValidationMessageFor(model => model.kullaniciId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.renkId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.renkId,new SelectList(list7))
+                    @Html.ValidationMessageFor(model => model.renkId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Oluştur" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Geri Dön", "UrunYonetim")
+</div>

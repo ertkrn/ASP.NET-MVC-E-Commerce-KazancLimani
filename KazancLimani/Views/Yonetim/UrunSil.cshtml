@@ -1,0 +1,81 @@
+﻿@model proje1.Entities.Urun
+
+@{
+    ViewBag.Title = "KazancLimani - Ürün Sil";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.urunBaslik.ToUpper() ÜRÜNÜNÜ SİLMEK ÜZERESİNİZ!</h2>
+</div>
+<div class="panel-body">
+    <h4>Ürün</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.urunBaslik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.urunBaslik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.urunFotosu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.urunFotosu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.satistarihsaat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.satistarihsaat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.urunKonum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.urunKonum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.halasatilikmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.halasatilikmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.takasyapilirmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.takasyapilirmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.urunAciklama)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.urunAciklama)
+        </dd>
+    </dl>
+</div>
+<div class="panel-footer">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Geri Dön", "UrunYonetim")
+        </div>
+    }
+</div>

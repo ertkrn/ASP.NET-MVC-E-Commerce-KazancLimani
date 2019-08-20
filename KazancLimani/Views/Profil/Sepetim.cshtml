@@ -1,0 +1,114 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@{
+    int tfiyat = 0;
+    List<Sepet> sptler = new List<Sepet>();
+    List<Urun> urnler = new List<Urun>();
+    SepetYonetici spy = new SepetYonetici();
+    Kullanici klnc = Session["giris"] as Kullanici;
+    if (klnc != null)
+    {
+        List<Sepet> spts = spy.List(x => x.kullaniciId == klnc.kullaniciId);
+        Urun urn = new Urun();
+        UrunYonetici uy = new UrunYonetici();
+        foreach(Sepet spt in spts)
+        {
+            if (spt.faturaId == null)
+            {
+                urn = uy.Find(x => x.urunId == spt.urunId);
+                sptler.Add(spt);
+                urnler.Add(urn);
+                tfiyat += urn.urunFiyati;
+            }
+        }
+    }
+
+    ViewBag.Title = "KazancLimani - Sepetim";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>Sepetim</h2>
+    <p>
+        <a class="btn btn-danger btn-sm" onclick="sptbosalt();">Sepeti Boşalt</a>
+    </p>
+</div>
+<div class="panel-body">
+        @if (urnler.Count > 0)
+        {
+            <table class="table">
+                <tr>
+                    <th><mark>Ürün Fotosu</mark></th>
+                    <th><mark>İlan No</mark></th>
+                    <th><mark>Ürün Başlığı</mark></th>
+                    <th><mark>İlan Tarihi</mark></th>
+                    <th><mark>Ürün Fiyatı</mark></th>
+                </tr>      
+            @for (int i = 0; i < urnler.Count; i++)
+            {
+                
+                    <tr>
+                        @if (urnler[i].urunFotosu == null)
+                        {
+                            <td><img src="~/Content/Image/fotoyok.jpg" class="img-circle" style="width:50px;height:50px;" /></td>
+                        }
+                        else
+                        {
+                            <td><img src="~/Content/Image/Urun/@urnler[i].urunFotosu" class="img-circle" style="width:50px;height:50px;" /></td>
+                        }
+                        <td id="ilanid">@urnler[i].ilanId</td>
+                        <td>@urnler[i].urunBaslik</td>
+                        <td class="text-warning">@urnler[i].satistarihsaat.ToShortTimeString() <span class="text-info">@urnler[i].satistarihsaat.ToShortDateString()</span></td>
+                        <td class="text-success">₺@urnler[i].urunFiyati</td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" title="Sepetten Çıkar" onclick="sptsil();"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+            }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th><mark>Toplam Fiyat</mark></th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-success">₺@tfiyat</td>
+                    <td>
+                        <a href='@Url.Action("OdemeSatinAlim","Kullanici")' class="btn btn-success btn-sm">Satın Al</a>
+                    </td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <p class="text-warning">Sepetinizde hiçbir ürün bulunmamaktadır. Alışverişe devam etmek için <a href='@Url.Action("Index","Home")'><b>tıklayınız</b></a>.</p>
+        }
+</div>
+<div class="panel-footer">
+
+</div>
+<script>
+    function sptsil() {
+        var Id = document.getElementById("ilanid").innerHTML;
+        $.ajax({
+            type: "GET",
+            url: "/Kullanici/SepetSil/" + Id,
+            contentType: "application/json;charset=utf-8",
+            dataType: "json"
+        });
+        window.location= "sepetim";
+    }
+    function sptbosalt() {
+        $.ajax({
+            type: "GET",
+            url: "/Kullanici/SepetleriSil/",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json"
+        });
+        window.location = "sepetim";
+    }
+</script>

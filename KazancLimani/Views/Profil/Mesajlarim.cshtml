@@ -1,0 +1,165 @@
+﻿@using proje1.Entities
+@using proje1.BusinessLayer
+@using proje1.Entities.ValueObjects
+@model MesajViewModel
+@{
+    ViewBag.Title = "KazancLimani - Mesajlarım";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+    KullaniciYönetici ky = new KullaniciYönetici();
+    int sayac = 0;
+    Kullanici giris = null;
+    List<Kullanici> klnclar = null;
+    MesajYonetici my = new MesajYonetici();
+    List<Mesajlasma> msjlar = new List<Mesajlasma>();
+    if (Session["giris"] != null)
+    {
+        giris = Session["giris"] as Kullanici;
+        msjlar = my.MesajlariAl(giris).OrderByDescending(x => x.mesajtarihsaat).ToList();
+        klnclar = my.KullanicilariBul(giris);
+    }
+}
+<div class="panel-heading">
+    <h3 class="panel-title text-center">
+        Mesajlarim
+    </h3>
+</div>
+<div class="panel-body">
+    <div class="col-sm-10 col-sm-offset-1" style="margin-left:10px;">
+        <div class="anagovde">
+            <div class="kisim1">
+                <div class="arama">
+                    <input type="text" placeholder="Mesajlarda Ara..." id="arama" /><button type="submit" id="ara"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="baslikadi">
+                    @if (Model.klnc != null)
+                    {
+                        <p id="baslikadi">@ky.Find(x=>x.kullaniciId == Model.klnc.kullaniciId).isim @ky.Find(x => x.kullaniciId == Model.klnc.kullaniciId).soyisim</p>
+                    }
+                </div>
+            </div>
+            <div class="kisim2">
+                <div class="msjlar">
+                    @if (klnclar.Count != 0)
+                    {
+                        for (int i = 0; i < klnclar.Count; i++)
+                        {
+                            <a href="@Url.Action("Mesaj","Profil", new { id = klnclar[i].kullaniciId})" class="kullanici" role="button">
+                                @if (klnclar[i].profilFoto == null)
+                                {
+                                    <div class="fotolar"><img src="~/Content/Image/fotoyok.jpg" id="foto" /></div>
+                                }
+                                else
+                                {
+                                    <div class="fotolar"><img src="~/Content/Image/Profil/@klnclar[i].profilFoto" id="foto" /></div>
+                                }
+                                <div class="bilgiler">
+                                    <div id="adsoyad">
+                                        <p class="adsoyad">@(klnclar[i].isim + " " + klnclar[i].soyisim)</p>
+                                    </div>
+                                    <div id="icerik">
+                                        @for (int j = msjlar.Count - 1; j >= 0; j--)
+                                        {
+                                            if (msjlar[j].kullaniciAliciId == klnclar[i].kullaniciId || msjlar[j].kullaniciGonderenId == klnclar[i].kullaniciId)
+                                            {
+                                                sayac = j;
+                                            }
+                                        }
+                                        @if (msjlar[sayac].mesajmetni.Length > 30)
+                                        {
+                                            <p id="mesajicerik">@msjlar[sayac].mesajmetni.Substring(0, 30)...</p>
+                                            sayac = 0;
+                                        }
+                                        else
+                                        {
+                                            <p id="mesajicerik">@msjlar[sayac].mesajmetni</p>
+                                            sayac = 0;
+                                        }
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+                <div class="msjlasma">
+                    <div class="altmsjlar">
+                        @if (Model != null)
+                        {
+                            for (int k = msjlar.Count - 1; k >= 0; k--)
+                            {
+                                if (msjlar[k].kullaniciAliciId == Model.klnc.kullaniciId || msjlar[k].kullaniciGonderenId == Model.klnc.kullaniciId)
+                                {
+                                    if (msjlar[k].kullaniciGonderenId == Model.klnc.kullaniciId)
+                                    {
+                                        <div class="kalip"><div id="alinan"><span id="mesajmetni2">@msjlar[k].mesajmetni</span><span id="mesajsaati2">@msjlar[k].mesajtarihsaat</span></div></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="kalip"><div id="gonderilen"><span id="mesajmetni1">@msjlar[k].mesajmetni</span><span id="mesajsaati1">@msjlar[k].mesajtarihsaat</span></div></div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="yeni">
+                        @using (Html.BeginForm("Mesajlarim", "Profil", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.HiddenFor(model=>model.klnc.kullaniciId, new { id="klncid"})
+                            @*<input type="text" id="mesajkutusu" placeholder="Bir mesaj yazın." />*@
+                            @Html.TextBoxFor(model => model.MesajMetni, new { id = "mesajkutusu", placeholder="Bir mesaj yazın.", maxlength="100" })
+                            <button type="submit" id="mesajcek">
+                                <i class="fa fa-comments"></i>
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-footer">
+    <p>
+        @Html.ActionLink("Geri Dön", "Index", "Home")
+    </p>
+</div>
+<script>
+    function temizle() {
+        document.getElementById("mesajkutusu").value = "";
+    }
+
+    function getir() {
+        //document.getElementById("mesajkutusu").removeAttribute("disabled");
+        //document.getElementById("mesajkutusu").value = "asdasdasdasdasdassad";
+        //temizle().stop();
+        //document.getElementById("mesajkutusu").disabled = "false";
+        //document.getElementById("mesajkutusu").removeAttribute("disabled");
+    }
+
+    function getData() {
+        var counter = 0;
+        interval = window.setInterval(function () {
+            counter++;
+            var Id = $("#klncid").val();
+            $.ajax({
+                type: "GET",
+                url: "/Profil/MesajGetir/" + Id,
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        moveMarker(item.szerokosc, item.dlugosc);
+
+                    });
+                },
+                error: function (response) {
+
+                    alert('eror');
+                }
+            });
+            marker.setPosition(pos);
+            if (counter >= 1000) {
+                window.clearInterval(interval);
+            }
+        }, 10);
+    };
+</script>

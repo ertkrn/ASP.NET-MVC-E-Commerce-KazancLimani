@@ -1,0 +1,20 @@
+﻿@using proje1.Entities.Messages;
+@model List<ErrorMessageObj>
+@{
+    ViewBag.Title = "KazancLimani - Aktivasyon İşlemi";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Aktivasyon İşlemi
+    </h3>
+</div>
+<div class="panel-body">
+    <h2 class="text-primary col-md-12 text-center">AKTİVASYON İŞLEMİ GEÇERSİZ</h2>
+    <p class="text-danger">
+        @foreach (ErrorMessageObj errors in Model)
+        {@errors.Message <br />}
+    </p>
+</div>
+
+<script src="~/Scripts/timer.js"></script>

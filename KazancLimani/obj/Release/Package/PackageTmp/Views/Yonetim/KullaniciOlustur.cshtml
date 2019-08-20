@@ -1,0 +1,132 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@model proje1.Entities.Kullanici
+
+@{
+    KullaniciYönetici ky = new KullaniciYönetici();
+    List<Sehir> list = ky.SehirAl();
+    List<Object> list1 = new List<Object>();
+    List<Object> list2 = new List<Object>();
+    List<Object> list3 = new List<Object>();
+    List<Object> list4 = new List<Object>();
+    List<int> list5 = new List<int>();
+    list2.Add("-");
+    list3.Add("-");
+    list4.Add("-");
+    for (int i = 1; i <= 81; i++) { list5.Add(i); }
+    foreach (Sehir Shr in list) { list1.Add(Shr.ilAdi); }
+    for (int m = 1; m <= 31; m++) { if (m < 10) { list2.Add("0" + m); } else { list2.Add(m); } }
+    for (int n = 1; n <= 12; n++) { if (n < 10) { list3.Add("0" + n); } else { list3.Add(n); } }
+    for (int z = 1918; z <= 2000; z++) { list4.Add(z); }
+
+    ViewBag.Title = "KazancLimani - Kullanıcı Oluştur";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>YENİ KULLANICI OLUŞTUR</h2>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Kullanici</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciAdi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kullaniciAdi, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.kullaniciAdi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciSifre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kullaniciSifre, new { htmlAttributes = new { @class = "form-control", @type="password" } })
+                    @Html.ValidationMessageFor(model => model.kullaniciSifre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciKonum, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.kullaniciKonum, new SelectList(list1))
+                    @*@Html.EditorFor(model => model.kullaniciKonum, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.kullaniciKonum, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kullaniciEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.kullaniciEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciAktifmi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.kullaniciAktifmi)
+                        @Html.ValidationMessageFor(model => model.kullaniciAktifmi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.adminmi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.adminmi)
+                        @Html.ValidationMessageFor(model => model.adminmi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.isim, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.isim, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.isim, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.soyisim, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.soyisim, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.soyisim, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.cinsiyet, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.cinsiyet, new SelectList(new List<Object> { "NULL","BAY", "BAYAN" }))
+                    @*@Html.EditorFor(model => model.cinsiyet, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.cinsiyet, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.dogumtarihi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.dogumtarihi, new { htmlAttributes = new { @class = "form-control", value="31.12.1997 12:00:00.000" } })
+                    @Html.ValidationMessageFor(model => model.dogumtarihi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Oluştur" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Geri Dön", "KullaniciYonetim")
+</div>

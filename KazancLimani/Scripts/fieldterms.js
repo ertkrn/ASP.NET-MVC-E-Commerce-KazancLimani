@@ -1,0 +1,1 @@
+﻿document.getElementById("field_terms").setCustomValidity("Lütfen Şartlar ve Koşulları kabul ettiğinizi belirtin.");

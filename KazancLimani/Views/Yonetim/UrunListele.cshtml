@@ -1,0 +1,99 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@model IEnumerable<proje1.Entities.Urun>
+
+@{
+    KategoriYonetici ky = new KategoriYonetici();
+    Kategori kat = new Kategori();
+    string ktadi = ViewData["katadi"] as string;
+    foreach (var item in Model)
+    {
+        kat = ky.Find(x => x.kategoriId == item.kategoriId);
+    }
+
+    ViewBag.Title = "KazancLimani - Kategoriye Göre Ürünler";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+@if (ktadi != null)
+{
+    <div class="panel-heading">
+        <h2>@ktadi.ToUpper() KATEGORİSİNDEKİ ÜRÜNLER</h2>
+    </div>
+    <div class="panel-body">
+        <h4 class="text-danger">BU KATEGORİDE ÜRÜN KAYITLI DEĞİL. YENİ ÜRÜN EKLEMEK İÇİN <a href="@Url.Action("UrunOlustur","Yonetim")" class="text-primary">TIKLAYINIZ.</a></h4>
+    </div>
+}
+else
+{
+    <div class="panel-heading">
+        <h2>@kat.kategoriAdi.ToUpper() KATEGORİSİNDEKİ ÜRÜNLER</h2>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.urunBaslik)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.urunFotosu)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.satistarihsaat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.urunKonum)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.halasatilikmi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.takasyapilirmi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.durumu)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.urunAciklama)
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.urunBaslik)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.urunFotosu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.satistarihsaat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.urunKonum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.halasatilikmi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.takasyapilirmi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.durumu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.urunAciklama)
+                </td>
+                <td>
+                    <a href="@Url.Action("UrunDuzenle","Yonetim", new { id=item.urunId })" class="btn btn-warning btn-sm" title="Düzenle"><i class="fa fa-edit"></i></a>
+                    <a href="@Url.Action("UrunDetay","Yonetim", new { id=item.urunId })" class="btn btn-info btn-sm" title="Detay"><i class="fa fa-search"></i></a>
+                    <a href="@Url.Action("UrunSil","Yonetim", new { id=item.urunId })" class="btn btn-danger btn-sm" title="Sil"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+}
+<div class="panel-footer">
+    @Html.ActionLink("Geri Dön", "UrunYonetim", "Yonetim")
+</div>

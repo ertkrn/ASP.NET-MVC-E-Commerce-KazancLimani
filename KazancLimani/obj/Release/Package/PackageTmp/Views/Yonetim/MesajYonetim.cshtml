@@ -1,0 +1,59 @@
+﻿@model IEnumerable<proje1.Entities.Mesajlasma>
+
+@{
+    ViewBag.Title = "KazancLimani - Mesaj Yönetimi";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>Mesaj Yönetimi</h2>
+    <p>
+        @*@Bootstrap.LinkButton("/Yonetim/MesajOlustur", "success", "btn-sm", "Yeni Oluştur", "plus", "Mesaj Oluştur")*@
+        <a href="@Url.Action("MesajOlustur","Yonetim")" class="btn btn-success btn-sm" title="Yeni Oluştur"><i class="fa fa-plus"></i>Yeni Mesaj Oluştur</a>
+        <a href="@Url.Action("MesajlariSil","Yonetim")" class="btn btn-danger btn-sm pull-right" onclick="return confirm('Tüm mesajları silmek istediğinize emin misiniz?');">Tüm Mesajları Sil</a>
+    </p>
+</div>
+<div class="panel-body">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.kullaniciGonderenId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.kullaniciAliciId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mesajtarihsaat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mesajmetni)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.kullaniciGonderenId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.kullaniciAliciId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mesajtarihsaat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mesajmetni)
+            </td>
+            <td>
+                <a href="@Url.Action("MesajDuzenle","Yonetim", new { id=item.mesajId })" class="btn btn-warning btn-sm" title="Düzenle"><i class="fa fa-edit"></i></a>
+                <a href="@Url.Action("MesajDetay","Yonetim", new { id=item.mesajId })" class="btn btn-info btn-sm" title="Detay"><i class="fa fa-search"></i></a>
+                <a href="@Url.Action("MesajSil","Yonetim", new { id=item.mesajId })" class="btn btn-danger btn-sm" title="Sil"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+    }
+
+    </table>
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Anasayfaya Dön", "Index", "Home")
+</div>

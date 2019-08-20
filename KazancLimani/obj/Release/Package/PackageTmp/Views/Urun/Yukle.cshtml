@@ -1,0 +1,129 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities.ValueObjects
+@using proje1.Entities
+
+@model UrunViewModel
+@{
+    RenkYonetici ry = new RenkYonetici();
+    SehirYonetici sy = new SehirYonetici();
+    KategoriYonetici ky = new KategoriYonetici();
+    List<Kategori> list_ktg = ky.List();
+    List<Sehir> list_shr = sy.List();
+    List<Renk> list_rnk = ry.List();
+    List<Object> shradi = new List<Object>();
+    List<Object> ktgadi = new List<Object>();
+    List<Object> rnkadi = new List<Object>();
+    foreach (Sehir shr in list_shr) { shradi.Add(shr.ilAdi); }
+    foreach (Kategori ktg in list_ktg) { ktgadi.Add(ktg.kategoriAdi); }
+    foreach (Renk rnk in list_rnk) { rnkadi.Add(rnk.renkAdi); }
+
+    ViewBag.Title = "KazancLimani - Ürün Ekle";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Ürün Ekle
+    </h3>
+</div>
+<div class="panel-body">
+    <div class="col-md-6" id="kayit">
+        <div class="thumbnail">
+            <img src="~/Content/Image/fotoyok.jpg" id="gorsel"/>
+        </div>
+    </div>
+    <div class="col-md-12 item-caption col-xs-12">
+        @using (Html.BeginForm("Yukle", "Urun", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <table class="table table-striped">
+                <thead>
+                    @Html.ValidationSummary()
+                    <tr>
+                        <td colspan='2'><input type='file' value='Fotoğraf Yükle' name='file' multiple='multiple' id='yuklenengorsel' max-size=10000 onChange='readURL(this);' /></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UrunBaslik)
+                        </th>
+                        <td>
+                            @Html.TextBoxFor(model => model.UrunBaslik)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UrunFiyat)
+                        </th>
+                        <td>
+                            @Html.TextBoxFor(model => model.UrunFiyat, new { type = "number", min = "0", max = "1000000", step = "1", required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UrunRenkAdi)
+                        </th>
+                        <td>
+                            @Html.DropDownListFor(model => model.UrunRenkAdi, new SelectList(rnkadi), new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UrunKonum)
+                        </th>
+                        <td>
+                            @Html.TextAreaFor(model => model.UrunKonum, new { @class = "uneditable-textarea", @cols = 27, @rows = 5 })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SehirAlani)
+                        </th>
+                        <td>
+                            @Html.DropDownListFor(model => model.SehirAlani, new SelectList(shradi), new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.KategoriAdi)
+                        </th>
+                        <td>
+                            @Html.DropDownListFor(model => model.KategoriAdi, new SelectList(ktgadi), new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Takas)
+                        </th>
+                        <td>
+                            @Html.DropDownListFor(model => model.takasdegeri, new[] { new SelectListItem { Text = "UYGUN", Value = "1" }, new SelectListItem { Text = "UYGUN DEĞİL", Value = "0" } }, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.durumu)
+                        </th>
+                        <td>
+                            @Html.DropDownListFor(model => model.durumdegeri, new[] { new SelectListItem { Text = "SIFIR", Value = "0" }, new SelectListItem { Text = "İKİNCİ EL", Value = "1" } }, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UrunAciklama)
+                        </th>
+                        <td>
+                            @Html.TextAreaFor(model => model.UrunAciklama, new { @class = "uneditable-textarea", @cols = 27, @rows = 10, maxlength="100" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input class='btn btn-lg btn-primary btn-block' type='submit' value='Kaydet'></td>
+                        <td><a href='@Url.Action("Yukle","Urun")' class='btn btn-lg btn-more' style='padding:0px 8px 0px 8px; border-radius:8px; margin-top:2px; border-style:groove;'>İptal</a></td>
+                    </tr>
+                </thead>
+            </table>
+        }
+    </div>
+</div>
+<div class="panel-footer">
+    <p>
+        @Html.ActionLink("Geri Dön", "Index","Home")
+    </p>
+</div>
+<script src="~/Scripts/GorselYukle.js"></script>

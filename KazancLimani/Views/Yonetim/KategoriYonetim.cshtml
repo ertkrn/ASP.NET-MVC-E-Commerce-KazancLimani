@@ -1,0 +1,42 @@
+﻿@model IEnumerable<proje1.Entities.Kategori>
+
+@{
+    ViewBag.Title = "KazancLimani - Kategori Yönetimi";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>Kategori Yönetimi</h2>
+    <p>
+        @*@Bootstrap.LinkButton("/Yonetim/KategoriOlustur","success","btn-sm","Yeni Oluştur","plus","Kategori Oluştur")*@
+        <a href="@Url.Action("KategoriOlustur","Yonetim")" class="btn btn-success btn-sm" title="Yeni Oluştur"><i class="fa fa-plus"></i>Yeni Kategori Oluştur</a>
+    </p>
+</div>
+<div class="panel-body">
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.kategoriAdi)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.kategoriAdi)
+                </td>
+                <td>
+                    <a href="@Url.Action("KategoriDuzenle","Yonetim", new { id=item.kategoriId })" class="btn btn-warning btn-sm" title="Düzenle"><i class="fa fa-edit"></i></a>
+                    <a href="@Url.Action("KategoriDetay","Yonetim", new { id=item.kategoriId })" class="btn btn-info btn-sm" title="Detay"><i class="fa fa-search"></i></a>
+                    <a href="@Url.Action("KategoriSil","Yonetim", new { id=item.kategoriId })" class="btn btn-danger btn-sm" title="Sil"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Anasayfaya Dön","Index","Home")
+</div>
+

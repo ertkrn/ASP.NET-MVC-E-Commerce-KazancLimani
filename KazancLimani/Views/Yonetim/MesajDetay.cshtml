@@ -1,0 +1,53 @@
+﻿@model proje1.Entities.Mesajlasma
+
+@{
+    ViewBag.Title = "KazancLimani - Mesaj Detayı";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.mesajmetni.ToUpper() MESAJININ DETAYI</h2>
+</div>
+<div class="panel-body">
+    <h4>Mesajlaşma</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciGonderenId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciGonderenId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciAliciId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciAliciId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mesajtarihsaat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mesajtarihsaat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mesajmetni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mesajmetni)
+        </dd>
+
+    </dl>
+</div>
+<div class="panel-footer">
+    <p>
+        @Html.ActionLink("Düzenle", "MesajDuzenle", new { id = Model.mesajId }) |
+        @Html.ActionLink("Geri Dön", "MesajYonetim")
+    </p>
+</div>

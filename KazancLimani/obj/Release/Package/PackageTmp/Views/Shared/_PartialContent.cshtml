@@ -1,0 +1,136 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@using TemplateArayisi
+@{
+    KategoriYonetici ky = new KategoriYonetici();
+    List<Kategori> kat = ky.List();
+    UrunYonetici uy = new UrunYonetici();
+    List<Urun> list = uy.UrunleriAl().OrderByDescending(x => x.satistarihsaat).ToList();
+}
+<div id="content">
+    @if (list != null)
+    {
+        <div class="showcase block block-border-bottom-grey" id="onecikan">
+            <div class="container">
+                <h2 class="block-title">
+                    Öne Çıkanlar
+                </h2>
+                <div class="item-carousel" data-toggle="owlcarousel" data-owlcarousel-settings='{"items":4, "pagination":false, "navigation":true, "itemsScaleUp":true}'>
+                    @for (int i = 2; i < list.Count; i++)
+                    {
+                        <div class="item" data-urun-id="@list[i].urunId">
+                            <a href="#" class="overlay-wrapper">
+                                @if (list[i].urunFotosu == null)
+                                {
+                                    @*<img src="~/img/showcase/project1.png" alt="Project 1 image" class="img-responsive underlay">*@
+                                    <img src="~/Content/Image/fotoyok.jpg" alt="Project 1 image" class="img-responsive underlay">
+                                }
+                                else
+                                {
+                                    <img src="~/Content/Image/Urun/@list[i].urunFotosu" alt="Project 1 image" class="img-responsive underlay" style="width:280px;height:171px;">
+                                }
+                                <span class="overlay" data-toggle="modal" data-target="#modal_detay" data-urun-id="@list[i].urunId">
+                                    <span class="overlay-content">
+                                        <span class="h4">
+                                            @if (list[i].urunAciklama!=null)
+                                            {
+                                                if (list[i].urunAciklama.Length >= 100)
+                                                {
+                                                    @(list[i].urunAciklama.Substring(0, 100)+"...")
+                                                }
+                                                else
+                                                {
+                                                    @list[i].urunAciklama
+                                                }
+                                            }
+                                        </span> 
+                                    </span>
+                                </span>
+                            </a>
+                            <div class="item-details bg-noise">
+                                <h4 class="item-title">
+                                    @if (list[i].urunBaslik.Length > 25)
+                                    {
+                                        <a href="#" title="@uy.Kategoriadi(list[i].kategoriId).ToString()" data-toggle="modal" data-target="#modal_detay" data-urun-id="@list[i].urunId">@(list[i].urunBaslik.Substring(0, 25) + "...")</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" title="@uy.Kategoriadi(list[i].kategoriId).ToString()" data-toggle="modal" data-target="#modal_detay" data-urun-id="@list[i].urunId">@list[i].urunBaslik</a>
+                                    }
+                                </h4>
+                                <a href="#" class="btn btn-more" data-toggle="modal" data-target="#modal_detay" data-urun-id="@list[i].urunId"><i class="fa fa-plus"></i>Detaylı Gör</a>
+                                <span class="text-fancy text-primary pull-right">@list[i].satistarihsaat.ToString("HH:mm") <span class="text-info">@list[i].satistarihsaat.ToString("dd.MM.yy")</span></span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    @if (kat != null)
+    {
+        for (int j = 0; j < kat.Count; j++)
+        {
+            <div class="showcase block block-border-bottom-grey" id="@kat[j].kategoriAdi">
+                <div class="container">
+                    <h2 class="block-title">
+                        @kat[j].kategoriAdi
+                    </h2>
+                    <div class="item-carousel" data-toggle="owlcarousel" data-owlcarousel-settings='{"items":4, "pagination":false, "navigation":true, "itemsScaleUp":true}'>
+                        @for (int i = 0; i < kat[j].Urunler3.Count; i++)
+                        {
+                            List<Urun> urunler = kat[j].Urunler3.OrderByDescending(x => x.satistarihsaat).ToList();
+                            <div class="item" data-urun-id="@urunler[i].urunId">
+                                <a href="#" class="overlay-wrapper">
+                                    @if (urunler[i].urunFotosu == null)
+                                    {
+                                        @*<img src="~/img/showcase/project1.png" alt="Project 1 image" class="img-responsive underlay">*@
+                                        <img src="~/Content/Image/fotoyok.jpg" alt="Project 1 image" class="img-responsive underlay">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Image/Urun/@urunler[i].urunFotosu" alt="Project 1 image" class="img-responsive underlay" style="width:280px;height:171px;">
+                                    }
+                                    <span class="overlay" data-toggle="modal" data-target="#modal_detay" data-urun-id="@urunler[i].urunId">
+                                        <span class="overlay-content"> 
+                                            <span class="h4">
+                                                @if (urunler[i].urunAciklama != null)
+                                                {
+                                                    if (urunler[i].urunAciklama.Length >= 100)
+                                                    {
+                                                        @(urunler[i].urunAciklama.Substring(0,100)+"...")
+                                                    }
+                                                    else
+                                                    {
+                                                        @urunler[i].urunAciklama
+                                                    }
+                                                }
+                                            </span> 
+                                        </span>
+                                    </span>
+                                </a>
+                                <div class="item-details bg-noise" data-urun-id="@urunler[i].urunId">
+                                    <h4 class="item-title">
+                                        @if (urunler[i].urunBaslik.Length > 28)
+                                        {
+                                            <a href="#" data-toggle="modal" data-target="#modal_detay" data-urun-id="@urunler[i].urunId">@(urunler[i].urunBaslik.Substring(0, 28) + "...")</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" data-toggle="modal" data-target="#modal_detay" data-urun-id="@urunler[i].urunId">@urunler[i].urunBaslik</a>
+                                        }
+                                    </h4>
+                                    <a href="#" class="btn btn-more" data-toggle="modal" data-target="#modal_detay" data-urun-id="@urunler[i].urunId"><i class="fa fa-plus"></i>Detaylı Gör</a>
+                                    <span class="text-fancy text-primary pull-right">@urunler[i].satistarihsaat.ToString("HH:mm") <span class="text-info">@urunler[i].satistarihsaat.ToString("dd.MM.yy")</span></span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@Bootstrap.ModalPopup(id: "modal_detay", title:"Ürün Detayı")
+<script src="~/Scripts/UrunDetayPopup.js"></script>

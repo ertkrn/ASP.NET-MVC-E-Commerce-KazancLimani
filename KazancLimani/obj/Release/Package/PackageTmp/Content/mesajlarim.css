@@ -1,0 +1,255 @@
+﻿﻿ul, li {
+    list-style-type: none;
+}
+
+.adsoyad {
+    margin-top: 5px;
+    width: 100%;
+    font-weight: bold;
+    color: lightslategray;
+    text-align: center;
+    font-size: 20px;
+}
+
+.alinan {
+    width: 217px;
+    border-radius: 2px;
+    height: 270px;
+}
+
+.altmsjlar {
+    overflow-y: overlay;
+    width: 435px;
+    height: 220px;
+}
+
+.anagovde {
+    width: 710px;
+    height: 330px;
+    background-color: forestgreen;
+    border-radius: 5px;
+}
+
+    .anagovde * {
+        float: left;
+    }
+
+.arama {
+    border: ridge;
+    width: 261px;
+    height: 56px;
+    background-color: #ffd800;
+    border-radius: 5px;
+    padding: 12px 0px 0px 23px;
+    border-color: tan;
+}
+
+.baslikadi {
+    border: ridge;
+    border-color: darkorange;
+    width: 449px;
+    height: 55px;
+    background-color: #ff6a00;
+    border-radius: 5px;
+}
+
+.bilgiler {
+    width: 170px;
+    height: 51px;
+    background-color: aliceblue;
+    border-radius: 5px;
+    margin-left: 3px;
+}
+
+.fa-comments {
+    color: blue;
+}
+
+.fotolar {
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    padding: 4px 0px 0px 6px;
+}
+
+.gonderilen {
+    width: 217px;
+    height: 270px;
+    border-radius: 2px;
+}
+
+.fa-comments {
+    color: white;
+    font-size: 40px;
+    width: 74px;
+    height: 45px;
+    text-align: center;
+}
+
+.kalip {
+    width: 96%;
+}
+
+.kisim1 {
+    width: 710px;
+    height: 55px;
+    background-color: forestgreen;
+    border-radius: 5px;
+}
+
+.kisim2 {
+    width: 710px;
+    height: 275px;
+    background-color: forestgreen;
+    border-radius: 5px;
+}
+
+.kullanici {
+    border: outset;
+    border-color: darkgray;
+    width: 232px;
+    height: 57px;
+    background-color: aliceblue;
+    border-radius: 5px;
+    margin: 5px 0px 0px 5px;
+}
+
+.msjlar {
+    width: 261px;
+    height: 275px;
+    border-style: inset;
+    border-color: lemonchiffon;
+    background-color: #fff1a3;
+    border-radius: 5px;
+    overflow-y: overlay;
+}
+
+.msjlasma {
+    overflow-y: overlay;
+    border: inset;
+    border-color: sandybrown;
+    width: 449px;
+    height: 275px;
+    background-color: #ffbb8b;
+    border-radius: 5px;
+}
+
+.yeni {
+    width: 444px;
+    height: 50px;
+    background-color: black;
+    border-radius: 5px;
+}
+
+#adsoyad {
+    width: 100%;
+    height: 29px;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+#alinan {
+    float: left;
+    width: 45%;
+    color: white;
+    background-color: lightslategray;
+    border-radius: 5px;
+    border-style: groove;
+    padding: 2px 5px 2px 5px;
+    border-color: silver;
+}
+
+#ara {
+    width: 30px;
+    height: 30px;
+    background-color: skyblue;
+    border-radius: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#arama {
+    text-align: center;
+    height: 30px;
+}
+
+#baslikadi {
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: moccasin;
+}
+
+#foto {
+    border-radius: 100px;
+    width: 50px;
+    height: 45px;
+}
+
+#gonderilen {
+    float: right;
+    width: 45%;
+    background-color: lightcyan;
+    border-radius: 5px;
+    border-style: groove;
+    padding: 2px 5px 2px 5px;
+    border-color: silver;
+}
+
+#icerik {
+    width: 100%;
+    height: 22px;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+#mesajcek {
+    background-color: lawngreen;
+    width: 80px;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid green;
+    margin: 0px;
+    padding: 0px;
+}
+
+#mesajicerik {
+    font-weight: bold;
+    color: darkgray;
+    font-family: serif;
+    font-size: 10px;
+}
+
+#mesajkutusu {
+    font-size: 18px;
+    width: 364px;
+    height: 50px;
+    margin: 0px;
+    padding: 12px 30px 12px 30px;
+}
+
+#mesajmetni1 {
+    text-align: right;
+    width: 100%;
+}
+
+#mesajmetni2 {
+    text-align: left;
+    width: 100%;
+}
+
+#mesajsaati1 {
+    float: right;
+    font-size: 9px;
+    width: 100%;
+    text-align: right;
+    height: 15px;
+}
+
+#mesajsaati2 {
+    float: left;
+    font-size: 9px;
+    width: 100%;
+    text-align: left;
+    height: 15px;
+}

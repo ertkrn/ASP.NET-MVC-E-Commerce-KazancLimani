@@ -1,0 +1,15 @@
+﻿table {
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 2px;
+    border-color: grey;
+}
+.table-dark {
+    color: #fff;
+    background-color: #212529;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+}

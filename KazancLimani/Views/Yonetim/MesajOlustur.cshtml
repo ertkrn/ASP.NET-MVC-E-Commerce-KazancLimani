@@ -1,0 +1,61 @@
+﻿@model proje1.Entities.Mesajlasma
+
+@{
+    ViewBag.Title = "KazancLimani - Mesaj Oluştur";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>YENİ MESAJ OLUŞTUR</h2>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+    
+        <div class="form-horizontal">
+            <h4>Mesajlasma</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciGonderenId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kullaniciGonderenId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.kullaniciGonderenId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.kullaniciAliciId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kullaniciAliciId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.kullaniciAliciId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.mesajtarihsaat, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.mesajtarihsaat, new { htmlAttributes = new { @class = "form-control", Value=DateTime.Now, @readonly="true" } })
+                    @Html.ValidationMessageFor(model => model.mesajtarihsaat, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.mesajmetni, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.mesajmetni, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.mesajmetni, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Oluştur" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Geri Dön", "MesajYonetim")
+</div>

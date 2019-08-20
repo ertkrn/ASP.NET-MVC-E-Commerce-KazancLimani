@@ -1,0 +1,195 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@using TemplateArayisi.Classes
+@model Urun
+
+@{
+    int sayi = 0;
+    RenkYonetici ry = new RenkYonetici();
+    UrunYonetici uy = new UrunYonetici();
+    SehirYonetici sy = new SehirYonetici();
+    UrunFotoYonetici ufy = new UrunFotoYonetici();
+    Tarih trh = new Tarih();
+    KategoriYonetici ky = new KategoriYonetici();
+    Renk rnk = ry.Find(x => x.renkId == Model.renkId);
+    Sehir shr = sy.Find(x => x.ilPlaka == Model.ilPlaka);
+    Kullanici grs = Session["giris"] as Kullanici;
+
+    SepetYonetici spy = new SepetYonetici();
+    List<Sepet> sptler = new List<Sepet>();
+    if (grs != null)
+    {
+        List<Sepet> spts = new List<Sepet>();
+        spts = spy.List(x => x.kullaniciId == grs.kullaniciId);
+        for(int i = 0; i < spts.Count; i++)
+        {
+            if (spts[i].faturaId == null)
+            {
+                sptler.Add(spts[i]);
+            }
+        }
+    }
+
+    List<UrunFoto> ufs = new List<UrunFoto>();
+    if (Model != null)
+    {
+        ufs = ufy.List(x => x.urunId == Model.urunId).OrderBy(x => x.fotoId).ToList();
+    }
+}
+<style>
+    #satinal:hover {
+        background-color:forestgreen;
+        color: white;
+    }
+</style>
+<div class="col-md-6">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="thumbnail">
+                @if (Model != null)
+                {
+                    if (Model.urunFotosu != null)
+                    {
+                        <img src="~/Content/Image/Urun/@Model.urunFotosu" style="width:100%;"  id="fotoyeri"/>
+                    }
+                    else
+                    {
+                        <img src="~/Content/Image/fotoyok.jpg" style="width:100%;"/>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    @if (ufs.Count > 0)
+    {
+        <div class="row">
+            @if (Model.urunFotosu != null)
+            {
+                <div class="col-xs-4">
+                    <div class="thumbnail">
+                        <a onclick="fotosec('@Model.urunFotosu');">
+                            <img src="~/Content/Image/Urun/@Model.urunFotosu" />
+                        </a>
+                    </div>
+                </div>
+            }
+            @foreach (UrunFoto uf in ufs)
+            {
+                <div class="item">
+                    <div class="col-xs-4">
+                        <div class="thumbnail">
+                            <a onclick="fotosec('@uf.fotograf');">
+                                <img src="~/Content/Image/Urun/@uf.fotograf" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+<div class="col-md-6 text-center">
+    <table class="table" style="border:none;">
+        <tr>
+            @if (Session["giris"] == null)
+            {
+                <td><a href="@Url.Action("Giris","Home")" class="btn btn-success btn-lg"><i class="fa fa-cart-plus"></i> Sepete Ekle</a></td>
+                <td><a href="@Url.Action("Giris","Home")" class="btn btn-more btn-lg"><i class="fa fa-envelope"></i>Mesaj Çek</a>@*@Bootstrap.LinkButton("/Home/Giris","more","btn-lg","Mesaj","envelope","Mesaj Çek")*@</td>
+            }
+            else
+            {
+                if (grs != null)
+                {
+                    if (Model.kullaniciId == (Session["giris"] as Kullanici).kullaniciId)
+                    {
+                        <td colspan="2"><a href="@Url.Action("UrunDuzenle","Urun", new { id = Model.urunId })" class="btn btn-success btn-lg"><i class="fa fa-plus"></i>Ürünü Düzenle</a></td>
+                    }
+                    else
+                    {
+                        if (sptler.Count > 0)
+                        {
+                            for (int j = 0; j < sptler.Count; j++)
+                            {
+                                if (sptler[j].urunId == Model.urunId)
+                                {
+                                    sayi++;
+                                }
+                            }
+                            if (sayi == 0)
+                            {
+                                <td><a class="btn btn-success btn-lg" id="sptekle"><i class="fa fa-cart-plus"></i> Sepete Ekle</a></td>
+                            }
+                            else
+                            {
+                                <td><a class="btn btn-danger btn-lg" id="sptckr"><i class="fa fa-cart-plus"></i> Sepetten Çıkar</a></td>
+                            }
+                        }
+                        else
+                        {
+                            <td><a class="btn btn-success btn-lg" id="sptekle"><i class="fa fa-cart-plus"></i> Sepete Ekle</a></td>
+                        }
+                        <td><a href="@Url.Action("Mesaj", "Profil", new { id = Model.kullaniciId })" class="btn btn-more btn-lg"><i class="fa fa-envelope"></i>Mesaj Çek</a>@*@Bootstrap.LinkButton("/Profil/Mesaj/" + Model.kullaniciId + "","more","btn-lg","Mesaj","envelope","Mesaj Çek")*@</td>
+                    }
+                }
+            }
+        </tr>
+        <tr>
+            <td colspan="2"><h2 class="text-center text-success"><b>@Model.urunFiyati ₺</b></h2></td>
+        </tr>
+        <tr>
+            <th>İlan No : </th>
+            <td class="text-primary">@Model.ilanId@Html.HiddenFor(model=>model.ilanId,new { id="ilanid"})</td>
+        </tr>
+        <tr>
+            <th>İlan Tarihi : </th>
+            <td>@Model.satistarihsaat.Day @trh.AyAdiAl(Model.satistarihsaat.Month) @Model.satistarihsaat.Year</td>
+        </tr>
+        <tr>
+            <th>Kategori : </th>
+            <td>@if (Model != null) { @ky.Find(x => x.kategoriId == Model.kategoriId).kategoriAdi }</td>
+        </tr>
+        <tr>
+            <th>Şehir : </th>
+            <td>@shr.ilAdi</td>
+        </tr>
+        <tr>
+            <th>Renk : </th>
+            <td id="rnk">@rnk.renkAdi</td>
+        </tr>
+        <tr>
+            <th>Durumu : </th>
+            <td>@uy.UrunDurumu(Model.durumu)</td>
+        </tr>
+        <tr>
+            <th>Takas : </th>
+            <td>@uy.Takas(Model.takasyapilirmi)</td>
+        </tr>
+    </table>
+</div>
+<div class="col-sm-6 col-sm-offset-3">
+    <h3><ins class="text-primary col-sm-offset-3">Ürün Açıklama</ins></h3><br />
+    <h4><mark class="text-center text-danger"><b>@Model.urunBaslik</b></mark></h4>
+    <p><strong>@Model.urunAciklama</strong></p>
+</div>
+<script>
+    $('#sptekle').click(function () {
+        var Id = $("#ilanid").val();
+        $.ajax({
+            type: "GET",
+            url: "/Kullanici/SepeteEkle/" + Id,
+            contentType: "application/json;charset=utf-8",
+            dataType: "json"
+        });
+        window.location = " ";
+    });
+    $('#sptckr').click(function () {
+        var Id = $("#ilanid").val();
+        $.ajax({
+            type: "GET",
+            url: "/Kullanici/SepetSil/" + Id,
+            contentType: "application/json;charset=utf-8",
+            dataType: "json"
+        });
+        window.location = " ";
+    });
+</script>

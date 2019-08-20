@@ -1,0 +1,6 @@
+C:\Users\ERTUGRUL\source\repos\TemplateArayisi\proje1.Core\bin\Release\proje1.Core.dll
+C:\Users\ERTUGRUL\source\repos\TemplateArayisi\proje1.Core\bin\Release\proje1.Core.pdb
+C:\Users\ERTUGRUL\source\repos\TemplateArayisi\proje1.Core\obj\Release\proje1.Core.csproj.CoreCompileInputs.cache
+C:\Users\ERTUGRUL\source\repos\TemplateArayisi\proje1.Core\obj\Release\proje1.Core.dll
+C:\Users\ERTUGRUL\source\repos\TemplateArayisi\proje1.Core\obj\Release\proje1.Core.pdb
+C:\Users\ERTUGRUL\source\repos\TemplateArayisi\proje1.Core\obj\Release\proje1.Core.csprojAssemblyReference.cache

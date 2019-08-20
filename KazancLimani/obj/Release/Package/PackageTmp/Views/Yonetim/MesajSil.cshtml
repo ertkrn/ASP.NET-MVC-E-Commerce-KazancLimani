@@ -1,0 +1,58 @@
+﻿@model proje1.Entities.Mesajlasma
+
+@{
+    ViewBag.Title = "KazancLimani - Mesaj Sil";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.mesajmetni.ToUpper() MESAJINI SİLMEK ÜZERESİNİZ!</h2>
+</div>
+<div class="panel-body">
+    <h4>Mesajlaşma</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciGonderenId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciGonderenId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciAliciId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciAliciId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mesajtarihsaat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mesajtarihsaat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mesajmetni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mesajmetni)
+        </dd>
+
+    </dl>
+</div>
+<div class="panel-footer">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Geri Dön", "MesajYonetim")
+        </div>
+    }
+</div>

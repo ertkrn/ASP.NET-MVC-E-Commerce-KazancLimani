@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="ProjeContext-Web.config Connection String" description="ProjeContext Veritabanına erişmek için uygulama tarafından web.config'de kullanılan Bağlantı Dizesi." defaultValue="Data Source=184.168.47.15;Initial Catalog=kazanclimani;Integrated Security=False;User Id=kznclmn;Password=ASD123-a;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\ERTUGRUL\\source\\repos\\TemplateArayisi\\TemplateArayisi\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ProjeContext']/@connectionString" />
+  </parameter>
+</parameters>

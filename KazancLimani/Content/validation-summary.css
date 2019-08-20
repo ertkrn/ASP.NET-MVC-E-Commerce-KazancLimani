@@ -1,0 +1,12 @@
+﻿.validation-summary-errors {
+    text-align:center;
+    border: 2px outset;
+    background-image: -webkit-linear-gradient(top, #ad4dd3 0%, #8c3daa 100%);
+    border-radius: 8px;
+}
+
+    .validation-summary-errors ul {
+        list-style-type: none;
+        padding: 10px;
+        color: #ffffff;
+    }

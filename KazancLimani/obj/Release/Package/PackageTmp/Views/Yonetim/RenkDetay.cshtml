@@ -1,0 +1,45 @@
+﻿@model proje1.Entities.Renk
+
+@{
+    ViewBag.Title = "KazancLimani - Renk Detayı";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.renkAdi.ToUpper() RENGİNİN DETAYI</h2>
+</div>
+<div class="panel-body">
+    <h4>Renk</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.renkId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.renkId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.renkAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.renkAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.renkKodu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.renkKodu)
+        </dd>
+
+    </dl>
+</div>
+<div class="panel-footer">
+    <p>
+        @Html.ActionLink("Düzenle", "RenkDuzenle", new { id = Model.renkId }) |
+        @Html.ActionLink("Geri Dön", "RenkYonetim")
+    </p>
+</div>

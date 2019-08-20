@@ -1,0 +1,29 @@
+﻿@model proje1.Entities.Kategori
+
+@{
+    ViewBag.Title = "KazancLimani - Kategori Detayı";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.kategoriAdi.ToUpper() KATEGORİSİ DETAYI</h2>
+</div>
+<div class="panel-body">
+    <h4>Kategori</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.kategoriAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kategoriAdi)
+        </dd>
+
+    </dl>
+</div>
+<div class="panel-footer">
+    <p>
+        @Html.ActionLink("Düzenle", "KategoriDuzenle", new { id = Model.kategoriId }) |
+        @Html.ActionLink("Geri Dön", "KategoriYonetim")
+    </p>
+</div>

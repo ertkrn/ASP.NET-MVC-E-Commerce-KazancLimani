@@ -1,0 +1,34 @@
+﻿@model proje1.Entities.Kategori
+
+@{
+    ViewBag.Title = "KazancLimani - Kategori Sil";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.kategoriAdi.ToUpper() KATEGORİSİNİ SİLMEK ÜZERESİNİZ!</h2>
+</div>
+<div class="panel-body">
+    <h4>Kategori</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.kategoriAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kategoriAdi)
+        </dd>
+
+    </dl>
+</div>
+<div class="panel-footer">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Geri Dön", "KategoriYonetim")
+        </div>
+    }
+</div>

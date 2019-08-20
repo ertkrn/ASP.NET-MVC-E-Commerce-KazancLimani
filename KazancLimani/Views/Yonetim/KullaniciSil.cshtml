@@ -1,0 +1,122 @@
+﻿@model proje1.Entities.Kullanici
+
+@{
+    ViewBag.Title = "KazancLimani - Kullanıcı Sil";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>@Model.kullaniciAdi.ToUpper() KULLANICISINI SİLMEK ÜZERESİNİZ!</h2>
+</div>
+<div class="panel-body">
+    <h4>Kullanici</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciSifre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciSifre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciKonum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciKonum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.activateGuid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.activateGuid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kullaniciAktifmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kullaniciAktifmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.adminmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.adminmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.soyisim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.soyisim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cinsiyet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cinsiyet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dogumtarihi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dogumtarihi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.profilFoto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profilFoto)
+        </dd>
+
+    </dl>
+</div>
+<div class="panel-footer">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Geri Dön", "KullaniciYonetim")
+        </div>
+    }
+</div>

@@ -1,0 +1,50 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@model List<Urun>
+@{
+    Kullanici klnc = Session["giris"] as Kullanici;
+
+    ViewBag.Title = "KazancLimani - Sattıklarım";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>Sattiklarim</h2>
+    <a href="@Url.Action("Yukle","Urun")" class="btn btn-success btn-sm" title="Yeni Oluştur"><i class="fa fa-plus"></i>Yeni Ürün Oluştur</a>
+</div>
+<div class="panel-body">
+    @if (Model.Count > 0)
+    {
+        <table class="table">
+            <tr>
+                <th><mark>Ürün Fotosu</mark></th>
+                <th><mark>İlan No</mark></th>
+                <th><mark>Ürün Başlığı</mark></th>
+                <th><mark>İlan Tarihi</mark></th>
+            </tr>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+              <tr>
+                  @if (Model[i].urunFotosu == null)
+                  {
+                      <td><img src="~/Content/Image/fotoyok.jpg" class="img-circle" style="width:50px;height:50px;" /></td>
+                  }
+                  else
+                  {
+                      <td><img src="~/Content/Image/Urun/@Model[i].urunFotosu" class="img-circle" style="width:50px;height:50px;" /></td>
+                  }
+                      <td>@Model[i].ilanId</td>
+                      <td>@Model[i].urunBaslik</td>
+                      <td class="text-warning">@Model[i].satistarihsaat.ToShortTimeString() <span class="text-info">@Model[i].satistarihsaat.ToShortDateString()</span></td>
+                      <td>
+                          <a href="@Url.Action("UrunDuzenle","Urun", new { id=Model[i].urunId })" class="btn btn-warning btn-sm" title="Düzenle"><i class="fa fa-edit"></i></a>
+                          <a href="@Url.Action("UrunDetay","Urun", new { id=Model[i].urunId })" class="btn btn-info btn-sm" title="Detay"><i class="fa fa-search"></i></a>
+                          <a href="@Url.Action("UrunSil","Urun", new { id=Model[i].urunId })" class="btn btn-danger btn-sm" title="Sil" onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i></a>
+                      </td>
+              </tr>
+            }
+        </table>
+    }
+</div>
+<div class="panel-footer">
+
+</div>

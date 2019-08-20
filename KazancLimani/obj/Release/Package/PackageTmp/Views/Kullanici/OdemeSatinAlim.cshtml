@@ -1,0 +1,103 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@{
+    int tfiyat = 0;
+    SepetYonetici spy = new SepetYonetici();
+    Kullanici klnc = Session["giris"] as Kullanici;
+    if (klnc != null)
+    {
+        List<Sepet> spts = spy.List(x => x.kullaniciId == klnc.kullaniciId);
+        Urun urn = new Urun();
+        UrunYonetici uy = new UrunYonetici();
+        foreach (Sepet spt in spts)
+        {
+            if (spt.faturaId == null)
+            {
+                urn = uy.Find(x => x.urunId == spt.urunId);
+                tfiyat += urn.urunFiyati;
+            }
+        }
+    }
+    ViewBag.Title = "KazancLimani - Ödeme Sayfası";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <div class="row display-tr">
+        <h3 class="panel-title display-td">Ödeme Detayı</h3>
+        <div class="display-td">
+            <img class="img-responsive pull-right" src="~/img/payment/accepted_c22e0.png">
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="cardNumber">KART NUMARASI</label>
+                    <div class="input-group">
+                        <input type="tel"
+                               class="form-control"
+                               name="cardNumber"
+                               placeholder="Valid Card Number"
+                               autocomplete="cc-number"
+                               required autofocus />
+                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-7 col-md-7">
+                <div class="form-group">
+                    <label for="cardExpiry"><span class="hidden-xs">SON KULLANMA</span><span class="visible-xs-inline">SK</span> TARİHİ</label>
+                    <input type="tel"
+                           class="form-control"
+                           name="cardExpiry"
+                           placeholder="MM / YY"
+                           autocomplete="cc-exp"
+                           required />
+                </div>
+            </div>
+            <div class="col-xs-5 col-md-5 pull-right">
+                <div class="form-group">
+                    <label for="cardCVC">CV KODU</label>
+                    <input type="tel"
+                           class="form-control"
+                           name="cardCVC"
+                           placeholder="CVC"
+                           autocomplete="cc-csc"
+                           required />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="couponCode">KUPON KODU</label>
+                    <input type="text" class="form-control" name="couponCode" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="panel-footer">
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="subscribe btn btn-success btn-lg btn-block" onclick="odeme();">@tfiyat₺ ÖDE</a>
+            <a href='@Url.Action("Index","Home")' hidden id="dnm"></a>
+        </div>
+    </div>
+    <div class="row" style="display:none;">
+        <div class="col-xs-12">
+            <p class="payment-errors"></p>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Paymnt.js"></script>
+<script>
+    function odeme() {
+        alert("Şu an da işlem gerçekleştirilemiyor.");
+        document.getElementById("dnm").click();
+    }
+</script>

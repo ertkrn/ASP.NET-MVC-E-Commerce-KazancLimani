@@ -1,0 +1,359 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@{ 
+    List<Sepet> spts = new List<Sepet>();
+    List<Sepet> sepetler = new List<Sepet>();
+    long tfiyat=0;
+    Kullanici klnc = Session["giris"] as Kullanici;
+    Kullanici admin = null;
+    if (klnc!=null && klnc.adminmi)
+    {
+        admin = klnc;
+    }
+    if (klnc != null)
+    {
+        SepetYonetici sy = new SepetYonetici();
+        UrunYonetici uy = new UrunYonetici();
+        Urun urn = new Urun();
+        spts = sy.List(x => x.kullaniciId == klnc.kullaniciId);
+        if (spts.Count > 0)
+        {
+            sepetler = new List<Sepet>();
+            foreach (Sepet spt in spts)
+            {
+                if (spt.faturaId == null)
+                {
+                    urn = uy.Find(x => x.urunId == spt.urunId);
+                    sepetler.Add(spt);
+                    tfiyat += urn.urunFiyati;
+                }
+            }
+        }
+    }
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="keywords" content="kazanclimani, kazanç, limani, limanı, kazanc, türkiye, milli, en, büyük, satış, sitesi, ihtiyaç, aradığın, hepsi, herşey, burada, ikinci, el, aldım, sattım, çek, yükle, mesaj, at, kazanç limanı, Online Alışveriş Sitesi,">
+    <meta name="description" content="Satış yolculuğuna çıkmaya hazır mısınız? KazançLimanı - Şimdi Alışveriş Zamanı">
+    <meta name="robots" content="index, follow" />
+    <meta name="google-site-verification" content="1EJYd9L8xTTqlEIseI7BKCo7JOBEuobwzzXYLvsQN5c" />
+    <meta http-equiv="refresh" content="60; url=http://kazanclimani.com/">
+
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="">
+    <meta property="og:description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="">
+
+    <link rel="shortcut icon" href="~/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/img/icons/114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/img/icons/72x72.png">
+    <link rel="apple-touch-icon-precomposed" href="~/img/icons/default.png">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900" rel="stylesheet">
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/Content/owl.theme.min.css" rel="stylesheet" />
+    <link href="~/Content/owl.transitions.min.css" rel="stylesheet" />
+    <link href="~/Content/validation-summary.css" rel="stylesheet" />
+
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+    <link href="#" id="colour-scheme" rel="stylesheet">
+
+</head>
+
+<body class="page-index has-hero">
+    <div id="background-wrapper" class="buildings" data-stellar-background-ratio="0.1">
+        <div id="navigation" class="wrapper">
+            <div class="header-hidden collapse">
+                <div class="header-hidden-inner container">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-4">
+                            <h3>
+                                Farklı Tema Deneyin:
+                            </h3>
+                            <div class="switcher">
+                                <div class="cols">
+                                    Arkaplan:
+                                    <br>
+                                    <a href="#benches" class="background benches active" title="Benches">Benches</a> <a href="#boots" class="background boots " title="Boots">Boots</a> <a href="#buildings" class="background buildings " title="Buildings">Buildings</a>
+                                    <a href="#city" class="background city " title="City">City</a> <a href="#metro" class="background metro " title="Metro">Metro</a>
+                                </div>
+                                <div class="cols">
+                                    Renkler:
+                                    <br>
+                                    <a href="#orange" class="colour orange active" title="Orange">Orange</a> <a href="#green" class="colour green " title="Green">Green</a> <a href="#blue" class="colour blue " title="Blue">Blue</a> <a href="#lavender" class="colour lavender "
+                                                                                                                                                                                                                                          title="Lavender">Lavender</a>
+                                </div>
+                            </div>
+                            <p>
+                                <small>Seçim kalıcı değil.</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header">
+                <div class="header-inner container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="navbar-brand" href='@Url.Action("Index", "Home")' title="Home">
+                                <h1 class="hidden">
+                                    <img src="~/img/KazancLimani.png" alt="Flexor Logo">
+                                    KazancLimani
+                                </h1>
+                            </a>
+                            <div class="navbar-slogan">
+                                İKİNCİ EL SATIŞ SİTESİ
+                                <br> <span class="text-primary">KazancLimani.com</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-inline user-menu pull-right">
+                                <li class="user-button"><a class="btn btn-primary btn-hh-trigger" role="button" data-toggle="collapse" data-target=".header-hidden">Open</a></li>
+                            </ul>
+                            <ul class="list-inline user-menu pull-right">
+                                @if (Session["giris"] == null)
+                                {
+                                    <li class="user-register"><i class="fa fa-edit text-primary "></i> <a href='@Url.Action("Kayit")' class="text-uppercase">Kayıt Ol</a></li>
+                                    <li class="user-login"><i class="fa fa-sign-in text-primary"></i> <a href='@Url.Action("Giris")' class="text-uppercase">Giriş Yap</a></li>
+                                }
+                                else
+                                {
+                                    <li class="dropdown">
+                                        <a href="/Home/ShowProfile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <span class="fa fa-user text-primary"></span> PROFİL<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="@Url.Action("Select","Profil")"><i class="fa fa-user"></i> Profile Git</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="@Url.Action("Mesajlarim","Profil")"><i class="fa fa-envelope"></i> Mesajlarini Gör</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="@Url.Action("Yukle","Urun")"><i class="fa fa-plus"></i> Ürün Ekle</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("HesabiSil","Profil")" onclick="return confirm('Hesabınızı silmek istediğinize emin misiniz?');">
+                                                    <span class="glyphicon glyphicon-trash"></span> Profili Sil
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="user-register"><i class="fa fa-sign-out text-primary"></i> <a href='@Url.Action("Cikis","Home")' class="text-uppercase">Çıkış Yap</a></li>
+                                    if (sepetler.Count != 0 && spts.Count != 0)
+                                    {
+                                        <li class="user-register"><i class="fa fa-shopping-cart text-primary"></i> <a href='@Url.Action("Sepetim","Profil")' class="text-uppercase">@sepetler.Count - Ürün(ler) - <span class="btn btn-primary btn-xs">₺@tfiyat</span></a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="navbar navbar-default">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <div class="navbar-text social-media social-media-inline pull-right">
+                        <a href="https://twitter.com/ertkrn"><i class="fa fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/ertkrn61"><i class="fa fa-facebook"></i></a>
+                        <a href="https://www.linkedin.com/in/ertkrn/"><i class="fa fa-linkedin"></i></a>
+                        <a href="https://plus.google.com/u/0/101270389276670828228"><i class="fa fa-google-plus"></i></a>
+                        <a href="https://github.com/ertkrn"><i class="fa fa-github"></i></a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav" id="main-menu">
+                            <li class="icon-link">
+                                <a href='@Url.Action("Index","Home")'><i class="fa fa-home"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-sitemap"></i> SAYFALAR<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header text-center"> SİTE HARİTASI</li>
+                                    @if (Session["giris"] != null)
+                                    {
+                                        <li><a href="@Url.Action("Sattiklarim","Profil")" tabindex="-1" class="menu-item">Sattıklarım</a></li>
+                                        <li><a href="#" tabindex="-1" class="menu-item">Favorilerim</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="@Url.Action("Giris","Home")" tabindex="-1" class="menu-item">Giriş Yap</a></li>
+                                        <li><a href="@Url.Action("Kayit","Home")" tabindex="-1" class="menu-item">Kayıt Ol</a></li>
+                                    }
+                                    <li class="dropdown-footer"><br /></li>
+                                </ul>
+                            </li>
+                            @if (admin != null)
+                            {
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i> YÖNETİM<b class="caret"></b></a>
+                                        <!-- Dropdown Menu -->
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown-header text-center"> KATEGORİ İŞLEMLERİ</li>
+                                            <li><a href="@Url.Action("KategoriYonetim","Yonetim")" tabindex="-1" class="menu-item">Kategorileri Yönet</a></li>
+                                            <li class="dropdown-header text-center"> KULLANICI İŞLEMLERİ</li>
+                                            <li><a href="@Url.Action("KullaniciYonetim","Yonetim")" tabindex="-1" class="menu-item">Kullanıcıları Yönet</a></li>
+                                            <li class="dropdown-header text-center"> MESAJ İŞLEMLERİ</li>
+                                            <li><a href="@Url.Action("MesajYonetim","Yonetim")" tabindex="-1" class="menu-item">Mesajları Yönet</a></li>
+                                            <li class="dropdown-header text-center"> ÜRÜN İŞLEMLERİ</li>
+                                            <li><a href="@Url.Action("UrunYonetim","Yonetim")" tabindex="-1" class="menu-item">Ürünleri Yönet</a></li>
+                                            <li class="dropdown-header text-center"> ŞEHİR İŞLEMLERİ</li>
+                                            <li><a href="@Url.Action("SehirYonetim","Yonetim")" tabindex="-1" class="menu-item">Şehirleri Yönet</a></li>
+                                            <li class="dropdown-header text-center"> RENK İŞLEMLERİ</li>
+                                            <li><a href="@Url.Action("RenkYonetim","Yonetim")" tabindex="-1" class="menu-item">Renkleri Yönet</a></li>
+                                            <li class="dropdown-footer"><br /></li>
+                                        </ul>
+                                    </li>
+                            }
+                            <li class="dropdown dropdown-mm">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-list-alt"></i> ÜRÜN KATEGORİLERİ<b class="caret"></b></a>
+                                <ul class="dropdown-menu dropdown-menu-mm dropdown-menu-persist">
+                                    <li class="row">
+                                        <ul class="col-md-12">
+                                            <li><a href="#onecikan" class="text-center">Öne Çıkanlar</a></li>
+                                        </ul>
+                                        <ul class="col-md-6">
+                                            <li><a href="#Araba">Araba</a></li>
+                                            <li><a href="#Teknoloji">Teknoloji</a></li>
+                                            <li><a href="#Tasitlar">Taşıtlar</a></li>
+                                            <li><a href="#Spor">Spor</a></li>
+                                            <li><a href="#Ev">Ev</a></li>
+                                        </ul>
+                                        <ul class="col-md-6">
+                                            <li><a href="#Eğlence">Eğlence</a></li>
+                                            <li><a href="#Moda">Moda</a></li>
+                                            <li><a href="#Çocuk">Çocuk</a></li>
+                                            <li><a href="#Bahçe">Bahçe</a></li>
+                                            <li><a href="#Diğer">Diğer</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-footer"><br /></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+    </div>
+    @RenderSection("deneme", false)
+    <div class="block block-pd-sm block-bg-primary">
+        <div class="container">
+            <div class="row">
+                <h3 class="col-md-4">
+                    SPONSORLARIMIZ
+                </h3>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-2">
+                            <a href="https://ertkrn.com" title="Client 1">
+                                <img src="~/img/clients/client1.png" alt="Client 1 logo" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-2">
+                            <a href="https://ertkrn.com" title="Client 2">
+                                <img src="~/img/clients/client2.png" alt="Client 2 logo" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-2">
+                            <a href="https://ertkrn.com" title="Client 3">
+                                <img src="~/img/clients/client3.png" alt="Client 3 logo" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-2">
+                            <a href="https://ertkrn.com" title="Client 4">
+                                <img src="~/img/clients/client4.png" alt="Client 4 logo" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-2">
+                            <a href="https://ertkrn.com" title="Client 5">
+                                <img src="~/img/clients/client5.png" alt="Client 5 logo" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-2">
+                            <a href="https://ertkrn.com" title="Client 6">
+                                <img src="~/img/clients/client6.png" alt="Client 6 logo" class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer" class="block block-bg-grey-dark" data-stellar-background-ratio="0.4">
+        <div class="container">
+
+            <div class="row" id="contact">
+
+                <div class="col-md-3">
+                    <address>
+                        <strong>Kazanç Limani - İkinci El Satış Sitesi</strong>
+                        <br>
+                        <i class="fa fa-map-pin fa-fw text-primary"></i> Bilecik
+                        <br>
+                    </address>
+                </div>
+                <div class="col-md-3 col-md-offset-6">
+                    <h4 class="text-uppercase">
+                        Bizi Takip Edin:
+                    </h4>
+                    <div class="social-media social-media-stacked">
+                        <a href="https://twitter.com/ertkrn"><i class="fa fa-twitter fa-fw"></i> Twitter</a>
+                        <a href="https://www.facebook.com/ertkrn61"><i class="fa fa-facebook fa-fw"></i> Facebook</a>
+                        <a href="https://www.linkedin.com/in/ertkrn/"><i class="fa fa-linkedin fa-fw"></i> LinkedIn</a>
+                        <a href="https://plus.google.com/u/0/101270389276670828228"><i class="fa fa-google-plus fa-fw"></i> Google+</a>
+                        <a href="https://github.com/ertkrn"><i class="fa fa-github fa-fw"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row subfooter">
+                <div class="col-md-7">
+                    <div class="credits">
+                        Bize ulaşmak için <a href="https://ertkrn.com/">ertkrn.com</a>'u ziyaret edin.
+                    </div>
+                </div>
+            </div>
+
+            <a href="#top" class="scrolltop">Top</a>
+
+        </div>
+    </footer>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script src="~/Scripts/stellar.min.js"></script>
+    <script src="~/Scripts/waypoints.min.js"></script>
+    <script src="~/Scripts/counterup.min.js"></script>
+    <script src="~/Scripts/contactform.js"></script>
+    <script src="~/Scripts/UrunDetayPopup.js"></script>
+    <script src="~/Scripts/UrunFotosu.js"></script>
+
+    <script src="~/Scripts/color-switcher.js"></script>
+
+    <script src="~/Scripts/custom.js"></script>
+
+
+    <script src="~/Scripts/contactform.js"></script>
+
+</body>
+</html>

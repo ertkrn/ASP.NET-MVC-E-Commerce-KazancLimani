@@ -1,0 +1,39 @@
+﻿@model IEnumerable<proje1.Entities.Sehir>
+
+@{
+    ViewBag.Title = "KazancLimani - Şehir Yönetimi";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+<div class="panel-heading">
+    <h2>Sehir Yönetimi</h2>
+    <p>
+        @*@Bootstrap.LinkButton("/Yonetim/SehirOlustur", "success", "btn-sm", "Yeni Oluştur", "plus", "Şehir Oluştur")*@
+        <a href="@Url.Action("SehirOlustur","Yonetim")" class="btn btn-success btn-sm" title="Yeni Oluştur"><i class="fa fa-plus"></i>Yeni Şehir Oluştur</a>
+    </p>
+</div>
+<div class="panel-body">
+     <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ilAdi)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ilAdi)
+            </td>
+            <td>
+                <a href="@Url.Action("SehirDuzenle","Yonetim", new { id=item.ilPlaka })" class="btn btn-warning btn-sm" title="Düzenle"><i class="fa fa-edit"></i></a>
+                <a href="@Url.Action("SehirDetay","Yonetim", new { id=item.ilPlaka })" class="btn btn-info btn-sm" title="Detay"><i class="fa fa-search"></i></a>
+                <a href="@Url.Action("SehirSil","Yonetim", new { id=item.ilPlaka })" class="btn btn-danger btn-sm" title="Sil"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+    }
+    </table>
+</div>
+<div class="panel-footer">
+    @Html.ActionLink("Anasayfaya Dön", "Index", "Home")
+</div>

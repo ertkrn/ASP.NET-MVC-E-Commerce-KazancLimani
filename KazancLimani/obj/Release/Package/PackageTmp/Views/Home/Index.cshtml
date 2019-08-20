@@ -1,0 +1,107 @@
+﻿@using proje1.BusinessLayer
+@using proje1.Entities
+@{
+    ViewBag.Title = "Türkiye'nin Yeni Online Alışveriş Sitesi - Kazanç Limanı";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    UrunYonetici uy2 = new UrunYonetici();
+    List<Urun> list2 = uy2.UrunleriAl().OrderByDescending(x => x.satistarihsaat).ToList();
+}
+<div class="hero" id="highlighted">
+    <div class="inner">
+        <!--Slideshow-->
+        <div id="highlighted-slider" class="container">
+            <div class="item-slider" data-toggle="owlcarousel" data-owlcarousel-settings='{"singleItem":true, "navigation":true, "transitionStyle":"fadeUp"}'>
+                <!--Slideshow content-->
+                <!--Slide 1-->
+                @if (list2.Count > 0)
+                {
+                    if (list2[0] != null)
+                    {
+                        <div class="item" data-urun-id="@list2[0].urunId">
+                            <div class="row">
+                                <div class="col-md-6 col-md-push-6 item-caption">
+                                    <h2 class="h1 text-weight-light">
+                                        @*Welcome to <span class="text-primary">Flexor</span>*@
+                                        <span class="text-primary">@if(list2[0].urunBaslik.Length>25){ @(list2[0].urunBaslik.Substring(0, 25) + "...") }else{@list2[0].urunBaslik}</span>
+                                    </h2>
+                                    <h4>
+                                        @*Super flexible responsive theme with a modest design touch.*@
+                                        @if (list2[0].urunAciklama != null)
+                                        {
+                                            if (list2[0].urunAciklama.Length >= 100)
+                                            {
+                                                @(list2[0].urunAciklama.Substring(0,100)+"...")
+                                            }
+                                            else
+                                            {
+                                                @list2[0].urunAciklama
+                                            }
+                                        }
+                                    </h4>
+                                    <p><b class="text-success">@list2[0].urunFiyati ₺</b></p>
+                                    <a href="https://bootstrapmade.com" class="btn btn-more btn-lg i-right" data-toggle="modal" data-target="#modal_detay" data-urun-id="@list2[0].urunId">Detaylı Gör<i class="fa fa-plus"></i></a>
+                                </div>
+                                <div class="col-md-6 col-md-pull-6 hidden-xs">
+                                    @*<img src="~/img/slides/slide1.png" alt="Slide 1" class="center-block img-responsive">*@
+                                    @if(list2[0].urunFotosu == null)
+                                    {
+                                        <img src="~/Content/Image/fotoyok.jpg" alt="Slide 1" class="center-block img-responsive" style="height:380px;">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Image/Urun/@list2[0].urunFotosu" alt="Slide 1" class="center-block img-responsive" style="height:380px;">
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    if (list2.Count > 1)
+                    {
+                        <div class="item" data-urun-id="@list2[1].urunId">
+                            <div class="row">
+                                <div class="col-md-6 text-right-md item-caption">
+                                    <h2 class="h1 text-weight-light">
+                                        @*<span class="text-primary">Flexor</span> Bootstrap Theme*@
+                                        <span class="text-primary">@if(list2[1].urunBaslik.Length>13){ @(list2[1].urunBaslik.Substring(0, 13) + "...") }else{@list2[1].urunBaslik}</span>
+                                    </h2>
+                                    <h4>
+                                        @if (list2[1].urunAciklama != null)
+                                        {
+                                            if (list2[1].urunAciklama.Length >= 100)
+                                            {
+                                                @(list2[1].urunAciklama.Substring(0,100)+"...")
+                                            }
+                                            else
+                                            {
+                                                @list2[1].urunAciklama
+                                            }
+                                        }
+                                    </h4>
+                                    <p><b class="text-success">@list2[1].urunFiyati ₺</b></p>
+                                    <a href="https://bootstrapmade.com" class="btn btn-more btn-lg" data-toggle="modal" data-target="#modal_detay" data-urun-id="@list2[1].urunId"><i class="fa fa-plus"></i>Detaylı Gör</a>
+                                </div>
+                                <div class="col-md-6 hidden-xs">
+                                    @*<img src="~/img/slides/slide2.png" alt="Slide 2" class="center-block img-responsive">*@
+                                    @if(list2[1].urunFotosu == null)
+                                    {
+                                        <img src="~/Content/Image/fotoyok.jpg" alt="Slide 2" class="center-block img-responsive" style="height:380px;">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Image/Urun/@list2[1].urunFotosu" alt="Slide 1" class="center-block img-responsive" style="height:380px;">
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section deneme{
+    @Html.Partial("_PartialContent")
+}
+
+@*<a href="@html.EncodedLink("","Index","Yonetim", new {id=item.id}, new { @class.. })" class="...""*@ @*Buradan linkleri gizli yapabilirim*@

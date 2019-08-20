@@ -1,0 +1,161 @@
+﻿@using proje1.Entities
+@using proje1.Entities.ValueObjects
+@using proje1.BusinessLayer
+@model KullaniciViewModel
+@{
+    KullaniciYönetici ky = new KullaniciYönetici();
+    Kullanici klnc = null;
+    KullaniciViewModel kvm = new KullaniciViewModel();
+    MesajViewModel mvm = new MesajViewModel();
+    List<Sehir> list = ky.SehirAl();
+    List<Object> list1 = new List<Object>();
+    List<Object> list2 = new List<Object>();
+    List<Object> list3 = new List<Object>();
+    List<Object> list4 = new List<Object>();
+    list2.Add("-");
+    list3.Add("-");
+    list4.Add("-");
+    foreach (Sehir Shr in list) { list1.Add(Shr.ilAdi); }
+    for (int m = 1; m <= 31; m++) { if (m < 10) { list2.Add("0" + m); } else { list2.Add(m); } }
+    for (int n = 1; n <= 12; n++) { if (n < 10) { list3.Add("0" + n); } else { list3.Add(n); } }
+    for (int z = 1918; z <= 2000; z++) { list4.Add(z); }
+    if (Session["giris"] != null)
+    {
+        klnc = Session["giris"] as Kullanici;
+    }
+    ViewBag.Title = "KazancLimani - Profilim";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+<style>
+    table-dark thead th {
+        border-color: #32383e;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table td, .table th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+</style>
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Profilim
+    </h3>
+</div>
+<div class="panel-body">
+    <div class="col-md-12 col-md-offset-2 col-xs-12" id="kayit">
+        <div class="col-md-6">
+            @if (klnc != null)
+            {
+                if (klnc.profilFoto != null)
+                {
+                    <img src="~/Content/Image/Profil/@klnc.profilFoto" id="gorsel">
+                }
+                else
+                {
+                    <img src="~/Content/Image/fotoyok.jpg" id="gorsel">
+                }
+            }
+        </div>
+    </div>
+    <div class="col-md-12 item-caption col-xs-12">
+        <button class="btn btn-more btn-lg i-right pull-right" id="duzenle" onclick="myFunction()" style="margin:10px;">Profili Düzenle <i class="fa fa-plus"></i></button>
+        @using (Html.BeginForm("Hesabim", "Profil", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <table class="table table-striped">
+                <thead>
+                @Html.ValidationSummary()
+                <tr id="dosya">
+
+                </tr>
+                <tr>
+                    <th>
+                        Kullanıcı Adı
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model=>model.Username, new { id = "kadi", @readonly="readonly" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        İsim
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.Firstname, new { id = "adi", @readonly = "readonly" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Soyisim
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.Lastname, new { id = "sadi", @readonly = "readonly" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Kullanıcı E-mail
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.Email, new { id = "email", @readonly = "readonly" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Doğum Tarihi
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.GunAlani, new SelectList(list2), new { id="gun", @disabled = "disabled" })@Html.DropDownListFor(model => model.AyAlani, new SelectList(list3), new { id = "ay", @disabled = "disabled" })@Html.DropDownListFor(model => model.YilAlani, new SelectList(list4), new { id = "yil", @disabled = "disabled" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Kullanıcı Adresi
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.SehirAlani, new SelectList(list1),new { id = "knm", @disabled = "disabled" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Cinsiyet
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.CinsiyetAlani, new SelectList(new List<Object> { "-","BAY", "BAYAN" }), new { id = "cnsyt", @disabled = "disabled" })
+                    </td>
+                </tr>
+                <tr id="btn">
+
+                </tr>
+                </thead>
+            </table>
+        }
+    </div>
+</div>
+<div class="panel-footer">
+    <p>
+        @Html.ActionLink("Geri Dön", "Index","Home")
+    </p>
+</div>
+<script src="~/Scripts/GorselYukle.js"></script>
+<script>
+    function myFunction() {
+        document.getElementById("duzenle").style.display = "none";
+        document.getElementById("kadi").removeAttribute('readonly');
+        document.getElementById("adi").removeAttribute('readonly');
+        document.getElementById("sadi").removeAttribute('readonly');
+        document.getElementById("email").removeAttribute('readonly');
+        document.getElementById("gun").removeAttribute('disabled');
+        document.getElementById("ay").removeAttribute('disabled');
+        document.getElementById("yil").removeAttribute('disabled');
+        document.getElementById("knm").removeAttribute('disabled');
+        document.getElementById("cnsyt").removeAttribute('disabled');
+        document.getElementById("btn").innerHTML = "<td><input class='btn btn-lg btn-primary btn-block' type='submit' value='Güncelle'></td><td><a href='@Url.Action("Select","Profil")' class='btn btn-lg btn-more' style='padding:0px 8px 0px 8px; border-radius:8px; margin-top:2px; border-style:groove;'>İptal</a></td>";
+        document.getElementById("dosya").innerHTML = "<td colspan='2'><input type='file' value='Fotoğraf Yükle' name='file' multiple='multiple' id='yuklenengorsel' max-size=10000 onChange='readURL(this);' /></td>";
+    }
+</script>
